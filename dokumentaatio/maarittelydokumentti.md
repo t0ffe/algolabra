@@ -1,7 +1,7 @@
 # Määrittelydokumentti
 ## Yleistä
 
-Tämä on yksinkertainen interaktiivinen ja visuaalinen sovellus yleisimpien polunhakualgoritmien vertailuun.
+Tämä on yksinkertainen, interaktiivinen ja visuaalinen sovellus yleisimpien polunhakualgoritmien vertailuun.
 
 Sovellus on kirjoitettu Pythonilla.
 
@@ -12,9 +12,7 @@ Käyttäjälle esitetään tyhjä ruudukko, johon käyttäjä voi piirtää kart
 ### Toteutettavat polunhakualgoritmit:
 
 - Dijkstra
-
 - A\*
-
 - Jump Point Search (JPS)
 
 Algoritmin suorittamisen jälkeen käyttäjälle esitetään tulokset, löytyikö tavoite vai ei, kuinka paljon aikaa kului ja kuinka monta ruutua piti kulkea.
