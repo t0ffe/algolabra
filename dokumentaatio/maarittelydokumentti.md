@@ -16,3 +16,7 @@ Käyttäjälle esitetään tyhjä ruudukko, johon käyttäjä voi piirtää kart
 - Jump Point Search (JPS)
 
 Algoritmin suorittamisen jälkeen käyttäjälle esitetään tulokset, löytyikö tavoite vai ei, kuinka paljon aikaa kului ja kuinka monta ruutua piti kulkea.
+
+### Testaaminen
+
+Oikeellisuuden ja tehokkuuden testaamista varten käytän [täältä](https://www.movingai.com/benchmarks/) löytyviä karttoja.
