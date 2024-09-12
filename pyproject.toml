@@ -7,7 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pygame = "^2.6.0"
+invoke = "^2.2.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+autopep8 = "^2.3.1"
+coverage = "^7.6.1"
+pylint = "^3.2.7"
 
 [build-system]
 requires = ["poetry-core"]
