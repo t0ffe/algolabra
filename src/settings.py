@@ -1,6 +1,8 @@
 # Constants for the display
 TILE_SIZE = 20
 WIDTH, HEIGHT = 20, 20
+START = (0, 0)
+GOAL = (HEIGHT - 1, WIDTH - 1)
 
 GRID_COLOR = (200, 200, 200)
 OBSTACLE_COLOR = (0, 0, 0)

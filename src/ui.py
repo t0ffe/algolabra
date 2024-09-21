@@ -5,22 +5,17 @@ from settings import (
     BUTTON_HEIGHT,
     BUTTON_HOVER_COLOR,
     BUTTON_TEXT_COLOR,
+    GOAL,
     GOAL_COLOR,
     GRID_COLOR,
     OBSTACLE_COLOR,
+    START,
     START_COLOR,
     TILE_SIZE,
 )
 
 
-def draw_grid(
-    screen,
-    grid,
-    path=None,
-    colour=(33, 33, 33),
-    start=None,
-    goal=None,
-):
+def draw_grid(screen, grid, path=None, colour=(33, 33, 33), start=START, goal=GOAL):
     width, height = grid.shape
     # Draw the grid with obstacles
     for x in range(width):
@@ -69,7 +64,7 @@ def handle_mouse_click(pos, grid, width, height, button_rect, screen):
     if x < height and y < width:
         # Toggle obstacle
         grid[x, y] = 1 if grid[x, y] == 0 else 0
-        draw_grid(screen, grid, start=(0, 0), goal=(height - 1, width - 1))
+        draw_grid(screen, grid)
 
     # Check if the click is on the "Run" button
     if button_rect.collidepoint(pos):

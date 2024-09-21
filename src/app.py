@@ -7,8 +7,10 @@ from settings import (
     A_STAR_COLOR,
     BUTTON_HEIGHT,
     BUTTON_WIDTH,
+    GOAL,
     HEIGHT,
     JPS_COLOR,
+    START,
     TILE_SIZE,
     WIDTH,
 )
@@ -29,7 +31,7 @@ class App:
             BUTTON_HEIGHT,
         )
 
-        draw_grid(screen, grid, start=(0, 0), goal=(HEIGHT - 1, WIDTH - 1))
+        draw_grid(screen, grid)
 
         while True:
             for event in pygame.event.get():
@@ -64,26 +66,12 @@ class App:
 
     def run_algorithm(self, algorithm, grid):
         start_time = time.process_time()
-        path = algorithm(grid, (0, 0), (HEIGHT - 1, WIDTH - 1))
+        path = algorithm(grid, START, GOAL)
         elapsed_time = time.process_time() - start_time
         return path, elapsed_time
 
     def draw_paths(self, screen, grid, astar_path, jps_path):
         if jps_path:
-            draw_grid(
-                screen,
-                grid,
-                jps_path,
-                JPS_COLOR,
-                start=(0, 0),
-                goal=(HEIGHT - 1, WIDTH - 1),
-            )
+            draw_grid(screen, grid, jps_path, JPS_COLOR)
         if astar_path:
-            draw_grid(
-                screen,
-                grid,
-                astar_path,
-                A_STAR_COLOR,
-                start=(0, 0),
-                goal=(HEIGHT - 1, WIDTH - 1),
-            )
+            draw_grid(screen, grid, astar_path, A_STAR_COLOR)
