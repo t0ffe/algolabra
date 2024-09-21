@@ -21,7 +21,6 @@ class App:
     def run(self):
         pygame.init()
         grid = create_grid(WIDTH, HEIGHT, [])
-        screen = set_screen(WIDTH, HEIGHT)
         comparison_started = False
 
         button_rect = pygame.Rect(
@@ -31,7 +30,7 @@ class App:
             BUTTON_HEIGHT,
         )
 
-        draw_grid(screen, grid)
+        draw_grid(grid)
 
         while True:
             for event in pygame.event.get():
@@ -39,9 +38,7 @@ class App:
                     pygame.quit()
                     return
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if handle_mouse_click(
-                        pygame.mouse.get_pos(), grid, WIDTH, HEIGHT, button_rect, screen
-                    ):
+                    if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect):
                         comparison_started = True
 
             if comparison_started:
@@ -56,12 +53,12 @@ class App:
                 print("JPS is faster" if jps_time < astar_time else "A* is faster")
 
                 comparison_started = False
-                self.draw_paths(screen, grid, astar_path, jps_path)
+                self.draw_paths(grid, astar_path, jps_path)
 
             mouse_pos = pygame.mouse.get_pos()
             is_hovering_button = button_rect.collidepoint(mouse_pos)
 
-            draw_button(screen, button_rect, is_hovering_button)
+            draw_button(button_rect, is_hovering_button)
             pygame.display.update()
 
     def run_algorithm(self, algorithm, grid):
@@ -70,8 +67,8 @@ class App:
         elapsed_time = time.process_time() - start_time
         return path, elapsed_time
 
-    def draw_paths(self, screen, grid, astar_path, jps_path):
+    def draw_paths(self, grid, astar_path, jps_path):
         if jps_path:
-            draw_grid(screen, grid, jps_path, JPS_COLOR)
+            draw_grid(grid, jps_path, JPS_COLOR)
         if astar_path:
-            draw_grid(screen, grid, astar_path, A_STAR_COLOR)
+            draw_grid(grid, astar_path, A_STAR_COLOR)

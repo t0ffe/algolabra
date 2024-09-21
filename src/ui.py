@@ -8,15 +8,28 @@ from settings import (
     GOAL,
     GOAL_COLOR,
     GRID_COLOR,
+    HEIGHT,
     OBSTACLE_COLOR,
     START,
     START_COLOR,
     TILE_SIZE,
+    WIDTH,
 )
 
 
-def draw_grid(screen, grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
-    width, height = grid.shape
+def set_screen(width, height):
+    screen = pygame.display.set_mode(
+        (width * TILE_SIZE, height * TILE_SIZE + BUTTON_HEIGHT)
+    )
+    pygame.display.set_caption("Pathfinding Algorithm Comparison")
+    screen.fill((0, 0, 0))  # Background color
+    return screen
+
+
+screen = set_screen(WIDTH, HEIGHT)
+
+
+def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
     # Draw the grid with obstacles
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -47,7 +60,7 @@ def draw_grid(screen, grid, path=None, path_color=(33, 33, 33), start=START, goa
         pygame.draw.rect(screen, GOAL_COLOR, rect)
 
 
-def draw_button(screen, button_rect, is_hovered):
+def draw_button(button_rect, is_hovered):
     color = BUTTON_HOVER_COLOR if is_hovered else BUTTON_COLOR
 
     pygame.draw.rect(screen, color, button_rect)
@@ -58,24 +71,15 @@ def draw_button(screen, button_rect, is_hovered):
     screen.blit(text, text_rect)
 
 
-def handle_mouse_click(pos, grid, width, height, button_rect, screen):
+def handle_mouse_click(pos, grid, button_rect):
     # Check if the click is inside the grid
     x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
-    if x < height and y < width:
+    if x < HEIGHT and y < WIDTH:
         # Toggle obstacle
         grid[x, y] = 1 if grid[x, y] == 0 else 0
-        draw_grid(screen, grid)
+        draw_grid(grid)
 
     # Check if the click is on the "Run" button
     if button_rect.collidepoint(pos):
         return True
     return False
-
-
-def set_screen(width, height):
-    screen = pygame.display.set_mode(
-        (width * TILE_SIZE, height * TILE_SIZE + BUTTON_HEIGHT)
-    )
-    pygame.display.set_caption("Pathfinding Algorithm Comparison")
-    screen.fill((0, 0, 0))  # Background color
-    return screen
