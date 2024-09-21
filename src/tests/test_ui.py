@@ -30,11 +30,11 @@ def test_draw_grid(screen):
     grid = np.zeros((10, 10))
     draw_grid(screen, grid, start=None, goal=None, path=None, path_color=None)
     # Check if the grid is drawn correctly
-    for x in range(WIDTH):
-        for y in range(HEIGHT):
+    for x in range(grid.shape[0]):
+        for y in range(grid.shape[1]):
             rect = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
             color = screen.get_at((rect.x + TILE_SIZE // 2, rect.y + TILE_SIZE // 2))
-            assert color == GRID_COLOR  # Grid color
+            assert color == pygame.Color(*GRID_COLOR)
 
 
 def test_draw_button(screen):
