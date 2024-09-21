@@ -1,5 +1,3 @@
-import heapq
-
 import numpy as np
 
 from ui import draw_grid
@@ -16,7 +14,7 @@ DIRECTIONS = [
 ]
 
 
-def create_grid(width, height, obstacles):
+def create_grid(width, height, obstacles=[]):
     grid = np.zeros((width, height))
     for x, y in obstacles:
         grid[x, y] = 1
