@@ -15,7 +15,7 @@ from settings import (
 )
 
 
-def draw_grid(screen, grid, path=None, colour=(33, 33, 33), start=START, goal=GOAL):
+def draw_grid(screen, grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
     width, height = grid.shape
     # Draw the grid with obstacles
     for x in range(width):
@@ -31,7 +31,7 @@ def draw_grid(screen, grid, path=None, colour=(33, 33, 33), start=START, goal=GO
     if path:
         for x, y in path:
             rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-            pygame.draw.rect(screen, colour, rect)
+            pygame.draw.rect(screen, path_color, rect)
 
     # Draw start and goal points
     if start:

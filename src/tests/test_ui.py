@@ -1,3 +1,5 @@
+from tkinter import W
+
 import numpy as np
 import pygame
 import pytest
@@ -6,6 +8,7 @@ from settings import (
     BUTTON_COLOR,
     BUTTON_HEIGHT,
     BUTTON_HOVER_COLOR,
+    GRID_COLOR,
     HEIGHT,
     TILE_SIZE,
     WIDTH,
@@ -25,16 +28,17 @@ def screen():
 
 def test_draw_grid(screen):
     grid = np.zeros((10, 10))
-    draw_grid(screen, grid)
+    draw_grid(screen, grid, start=None, goal=None, path=None, path_color=None)
     # Check if the grid is drawn correctly
-    for x in range(10):
-        for y in range(10):
-            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-            color = screen.get_at((rect.x + 1, rect.y + 1))
-            assert color == pygame.Color(200, 200, 200)  # Grid color
+    for x in range(WIDTH):
+        for y in range(HEIGHT):
+            rect = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            color = screen.get_at((rect.x + TILE_SIZE // 2, rect.y + TILE_SIZE // 2))
+            assert color == GRID_COLOR  # Grid color
 
 
 def test_draw_button(screen):
+    screen = pygame.Surface((400, 300))
     button_rect = pygame.Rect(100, 100, 200, 50)
 
     # Check if the button is drawn correctly
