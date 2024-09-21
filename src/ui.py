@@ -58,6 +58,7 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
             goal[1] * TILE_SIZE, goal[0] * TILE_SIZE, TILE_SIZE, TILE_SIZE
         )
         pygame.draw.rect(screen, GOAL_COLOR, rect)
+    pygame.display.update()
 
 
 def draw_button(button_rect, is_hovered):
@@ -69,6 +70,7 @@ def draw_button(button_rect, is_hovered):
     text = font.render("Run Pathfinding", True, BUTTON_TEXT_COLOR)
     text_rect = text.get_rect(center=button_rect.center)
     screen.blit(text, text_rect)
+    pygame.display.update()
 
 
 def handle_mouse_click(pos, grid, button_rect):

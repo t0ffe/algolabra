@@ -59,7 +59,6 @@ class App:
             is_hovering_button = button_rect.collidepoint(mouse_pos)
 
             draw_button(button_rect, is_hovering_button)
-            pygame.display.update()
 
     def run_algorithm(self, algorithm, grid):
         start_time = time.process_time()
