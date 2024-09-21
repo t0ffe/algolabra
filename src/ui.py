@@ -20,7 +20,7 @@ def draw_grid(screen, grid, path=None, path_color=(33, 33, 33), start=START, goa
     # Draw the grid with obstacles
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
-            rect = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
             if grid[x, y] == 1:
                 pygame.draw.rect(screen, OBSTACLE_COLOR, rect)
             else:
