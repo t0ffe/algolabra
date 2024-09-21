@@ -4,14 +4,15 @@ from ui import draw_grid
 
 DIRECTIONS = [
     (0, 1),  # right
-    (0, -1),  # left
     (1, 0),  # down
+    (0, -1),  # left
     (-1, 0),  # up
     # (-1, -1),  # up-left
     # (-1, 1),  # up-right
     # (1, -1),  # down-left
     # (1, 1),  # down-right
 ]
+DRAW_IN_PROGRESS = True
 
 
 def create_grid(width, height, obstacles=[]):
@@ -57,6 +58,9 @@ def astar(grid, start, goal):
                 current = came_from[current]
             path.append(start)
             return path[::-1]
+
+        if DRAW_IN_PROGRESS:
+            draw_grid(grid, path=list(visited_nodes), start=start, goal=goal)
 
         unexplored_nodes.remove(current)
         visited_nodes.add(current)

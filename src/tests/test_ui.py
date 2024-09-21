@@ -28,7 +28,7 @@ def screen():
 
 def test_draw_grid(screen):
     grid = np.zeros((10, 10))
-    draw_grid(screen, grid, start=None, goal=None, path=None, path_color=None)
+    draw_grid(grid, start=None, goal=None, path=None, path_color=None)
     # Check if the grid is drawn correctly
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
@@ -42,12 +42,12 @@ def test_draw_button(screen):
     button_rect = pygame.Rect(100, 100, 200, 50)
 
     # Check if the button is drawn correctly
-    draw_button(screen, button_rect, is_hovered=False)
+    draw_button(button_rect, is_hovered=False)
     color = screen.get_at((button_rect.x + 1, button_rect.y + 1))
     assert color == pygame.Color(*BUTTON_COLOR)
 
     # Check if the button is drawn correctly when hovered
-    draw_button(screen, button_rect, is_hovered=True)
+    draw_button(button_rect, is_hovered=True)
     color = screen.get_at((button_rect.x + 1, button_rect.y + 1))
     assert color == pygame.Color(*BUTTON_HOVER_COLOR)
 
@@ -59,12 +59,12 @@ def test_handle_mouse_click(screen):
 
     # Click inside the grid
     pos = (50, 50)
-    assert not handle_mouse_click(pos, grid, width, height, button_rect, screen)
+    assert not handle_mouse_click(pos, grid, button_rect)
     assert grid[2, 2] == 1  # Obstacle toggled
 
     # Click on the button
     pos = (150, 525)
-    assert handle_mouse_click(pos, grid, width, height, button_rect, screen)
+    assert handle_mouse_click(pos, grid, button_rect)
 
 
 def test_set_screen():
