@@ -37,9 +37,11 @@ class App:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     return
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect):
+                elif pygame.mouse.get_pressed()[0]:
+                    if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 0):
                         comparison_started = True
+                elif pygame.mouse.get_pressed()[2]:
+                    handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 1)
 
             if comparison_started:
                 astar_path, astar_time = self.run_algorithm(astar, grid)

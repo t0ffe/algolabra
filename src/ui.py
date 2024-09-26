@@ -73,12 +73,15 @@ def draw_button(button_rect, is_hovered):
     pygame.display.update()
 
 
-def handle_mouse_click(pos, grid, button_rect):
+def handle_mouse_click(pos, grid, button_rect, mousebutton):
     # Check if the click is inside the grid
     x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
     if x < HEIGHT and y < WIDTH:
         # Toggle obstacle
-        grid[x, y] = 1 if grid[x, y] == 0 else 0
+        if mousebutton == 0:
+            grid[x, y] = 1
+        elif mousebutton == 1:
+            grid[x, y] = 0
         draw_grid(grid)
 
     # Check if the click is on the "Run" button
