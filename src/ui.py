@@ -1,5 +1,6 @@
 import pygame
 
+from helpers import convert_map_to_grid
 from settings import (
     BUTTON_COLOR,
     BUTTON_HEIGHT,
@@ -17,7 +18,7 @@ from settings import (
 )
 
 
-def set_screen(width, height):
+def set_screen(height, width):
     screen = pygame.display.set_mode(
         (width * TILE_SIZE, height * TILE_SIZE + BUTTON_HEIGHT)
     )
@@ -26,7 +27,8 @@ def set_screen(width, height):
     return screen
 
 
-screen = set_screen(WIDTH, HEIGHT)
+grid, height, width = convert_map_to_grid()
+screen = set_screen(width, height)
 
 
 def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):

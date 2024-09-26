@@ -1,5 +1,6 @@
 import numpy as np
 
+from settings import HEIGHT, WIDTH
 from ui import draw_grid
 
 DIRECTIONS = [
@@ -7,26 +8,27 @@ DIRECTIONS = [
     (1, 0),  # down
     (0, -1),  # left
     (-1, 0),  # up
-    # (-1, -1),  # up-left
-    # (-1, 1),  # up-right
-    # (1, -1),  # down-left
-    # (1, 1),  # down-right
+    (-1, -1),  # up-left
+    (-1, 1),  # up-right
+    (1, -1),  # down-left
+    (1, 1),  # down-right
 ]
 DRAW_IN_PROGRESS = True
 
 
-def create_grid(width, height, obstacles=[]):
-    grid = np.zeros((width, height))
+def create_grid(width=WIDTH, height=HEIGHT, obstacles=[]):
+    grid = np.zeros((width, height)).astype(int)
     for x, y in obstacles:
         grid[x, y] = 1
     return grid
 
 
-def astar(grid, start, goal):
+# Manhattan distance heuristic
+def heuristic(a, b):
+    return abs(b[0] - a[0]) + abs(b[1] - a[1])
 
-    # Manhattan distance heuristic
-    def heuristic(a, b):
-        return abs(b[0] - a[0]) + abs(b[1] - a[1])
+
+def astar(grid, start, goal):
 
     # Get the neighbors of a node
     def get_neighbors(node):
@@ -47,20 +49,29 @@ def astar(grid, start, goal):
 
     g_score = {start: 0}  # Cost from start along best path
     f_score = {start: heuristic(start, goal)}  # Estimated total cost from start to goal
+    drawingcounter = 0
 
     while unexplored_nodes:
         current = min(unexplored_nodes, key=lambda x: f_score[x])
-
+        drawingcounter = drawingcounter + 1
         if current == goal:
+            path_lenght = g_score[current]
             path = []
             while current in came_from:
                 path.append(current)
                 current = came_from[current]
             path.append(start)
-            return path[::-1]
+            return path[::-1], path_lenght
 
-        if DRAW_IN_PROGRESS:
-            draw_grid(grid, path=list(visited_nodes), start=start, goal=goal)
+        if drawingcounter % 50 == 0:
+            draw_grid(
+                grid,
+                path=list(visited_nodes),
+                path_color=(255, 0, 0),
+                start=start,
+                goal=goal,
+            )
+            drawingcounter = 0
 
         unexplored_nodes.remove(current)
         visited_nodes.add(current)
@@ -70,7 +81,10 @@ def astar(grid, start, goal):
                 continue
 
             # The distance from start to a neighbor
-            new_g_score = g_score[current] + 1
+            if abs(neighbor[0] - current[0]) + abs(neighbor[1] - current[1]) == 2:
+                new_g_score = g_score[current] + np.sqrt(2)
+            else:
+                new_g_score = g_score[current] + 1
 
             if neighbor not in unexplored_nodes:
                 unexplored_nodes.add(neighbor)
@@ -81,9 +95,9 @@ def astar(grid, start, goal):
             g_score[neighbor] = new_g_score
             f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
 
-    return []  # No path found
+    return [], 0  # No path found
 
 
 def jps(grid, start, goal):
     # TODO Implement the Jump Point Search algorithm
-    return []
+    return [], 0

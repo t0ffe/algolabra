@@ -2,6 +2,7 @@ import time
 
 import pygame
 
+from helpers import convert_map_to_grid
 from pathfinding import astar, create_grid, jps
 from settings import (
     A_STAR_COLOR,
@@ -20,7 +21,7 @@ from ui import draw_button, draw_grid, handle_mouse_click, set_screen
 class App:
     def run(self):
         pygame.init()
-        grid = create_grid(WIDTH, HEIGHT, [])
+        grid, width, height = convert_map_to_grid()
         comparison_started = False
 
         button_rect = pygame.Rect(
@@ -38,19 +39,20 @@ class App:
                     pygame.quit()
                     return
                 elif pygame.mouse.get_pressed()[0]:
+                    print(pygame.mouse.get_pos())
                     if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 0):
                         comparison_started = True
                 elif pygame.mouse.get_pressed()[2]:
                     handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 1)
 
             if comparison_started:
-                astar_path, astar_time = self.run_algorithm(astar, grid)
-                jps_path, jps_time = self.run_algorithm(jps, grid)
+                astar_path, astar_time, astar_length = self.run_algorithm(astar, grid)
+                jps_path, jps_time, jps_length = self.run_algorithm(jps, grid)
 
                 print("Comparison Results:")
-                print(f"A* Path Length: {len(astar_path)}")
+                print(f"A* Path Length: {astar_length}")
                 print(f"A* Time: {astar_time:.4f} seconds")
-                print(f"JPS Path Length: {len(jps_path)}")
+                print(f"JPS Path Length: {jps_length}")
                 print(f"JPS Time: {jps_time:.4f} seconds")
                 print("JPS is faster" if jps_time < astar_time else "A* is faster")
 
@@ -64,9 +66,9 @@ class App:
 
     def run_algorithm(self, algorithm, grid):
         start_time = time.process_time()
-        path = algorithm(grid, START, GOAL)
+        path, path_length = algorithm(grid, START, GOAL)
         elapsed_time = time.process_time() - start_time
-        return path, elapsed_time
+        return path, elapsed_time, path_length
 
     def draw_paths(self, grid, astar_path, jps_path):
         if jps_path:
