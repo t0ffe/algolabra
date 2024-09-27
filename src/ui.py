@@ -28,8 +28,8 @@ def calculate_tile_size(width, height):
 grid, height, width = convert_map_to_grid()
 TILE_SIZE = calculate_tile_size(width, height)
 button_rect = pygame.Rect(
-    (width * TILE_SIZE - BUTTON_WIDTH) // 2,
-    height * TILE_SIZE + 10,
+    (height * TILE_SIZE - BUTTON_WIDTH) // 2,
+    width * TILE_SIZE + 10,
     BUTTON_WIDTH,
     BUTTON_HEIGHT,
 )
@@ -81,12 +81,6 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
 
 
 def draw_button():
-    button_rect = pygame.Rect(
-        (width * TILE_SIZE - BUTTON_WIDTH) // 2,
-        height * TILE_SIZE + 10,
-        BUTTON_WIDTH,
-        BUTTON_HEIGHT,
-    )
     mouse_pos = pygame.mouse.get_pos()
     is_hovered = button_rect.collidepoint(mouse_pos)
 
