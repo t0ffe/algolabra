@@ -25,8 +25,8 @@ class App:
         comparison_started = False
 
         button_rect = pygame.Rect(
-            (WIDTH * TILE_SIZE - BUTTON_WIDTH) // 2,
-            HEIGHT * TILE_SIZE + 10,
+            (width * TILE_SIZE - BUTTON_WIDTH) // 2,
+            height * TILE_SIZE + 10,
             BUTTON_WIDTH,
             BUTTON_HEIGHT,
         )
