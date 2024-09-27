@@ -9,12 +9,10 @@ from settings import (
     GOAL,
     GOAL_COLOR,
     GRID_COLOR,
-    HEIGHT,
     OBSTACLE_COLOR,
     START,
     START_COLOR,
     TILE_SIZE,
-    WIDTH,
 )
 
 
@@ -83,8 +81,9 @@ def handle_mouse_click(pos, grid, button_rect, mousebutton):
 
     # Check if the click is inside the grid
     x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
-    if x < width and y < height:
+    if 0 <= x < width and 0 <= y < height:
         # start and goal points
         print("*click*", x, y)
         draw_grid(grid)
         return False, (x, y)
+    return False, (0, 0)
