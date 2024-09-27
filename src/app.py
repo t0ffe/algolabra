@@ -4,17 +4,7 @@ import pygame
 
 from helpers import convert_map_to_grid
 from pathfinding import astar, create_grid, jps
-from settings import (
-    A_STAR_COLOR,
-    BUTTON_HEIGHT,
-    BUTTON_WIDTH,
-    GOAL,
-    HEIGHT,
-    JPS_COLOR,
-    START,
-    TILE_SIZE,
-    WIDTH,
-)
+from settings import A_STAR_COLOR, BUTTON_HEIGHT, BUTTON_WIDTH, JPS_COLOR, TILE_SIZE
 from ui import draw_button, draw_grid, handle_mouse_click, set_screen
 
 
@@ -39,14 +29,27 @@ class App:
                     pygame.quit()
                     return
                 elif pygame.mouse.get_pressed()[0]:
-                    if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 0):
+                    on_button, start_pos = handle_mouse_click(
+                        pygame.mouse.get_pos(), grid, button_rect, 0
+                    )
+                    if on_button:
                         comparison_started = True
+                    else:
+                        start = start_pos
+                        print(start)
                 elif pygame.mouse.get_pressed()[2]:
-                    handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 1)
+                    on_button, goal = handle_mouse_click(
+                        pygame.mouse.get_pos(), grid, button_rect, 1
+                    )
+                    print(goal)
 
             if comparison_started:
-                astar_path, astar_time, astar_length = self.run_algorithm(astar, grid)
-                jps_path, jps_time, jps_length = self.run_algorithm(jps, grid)
+                astar_path, astar_time, astar_length = self.run_algorithm(
+                    astar, grid, start, goal
+                )
+                jps_path, jps_time, jps_length = self.run_algorithm(
+                    jps, grid, start, goal
+                )
 
                 print("Comparison Results:")
                 print(f"A* Path Length: {astar_length}")
@@ -63,9 +66,9 @@ class App:
 
             draw_button(button_rect, is_hovering_button)
 
-    def run_algorithm(self, algorithm, grid):
+    def run_algorithm(self, algorithm, grid, start, goal):
         start_time = time.process_time()
-        path, path_length = algorithm(grid, START, GOAL)
+        path, path_length = algorithm(grid, start, goal)
         elapsed_time = time.process_time() - start_time
         return path, elapsed_time, path_length
 

@@ -25,9 +25,3 @@ def convert_map_to_grid():
                     grid[y, x] = 1
 
     return grid, width, height
-
-
-# Usage
-file_path = "src/tests/maps/AR0082SR.map"  # Replace with your file path
-result = convert_map_to_grid()
-print(result)

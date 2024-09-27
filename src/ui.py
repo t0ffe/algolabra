@@ -42,12 +42,6 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
                 pygame.draw.rect(screen, GRID_COLOR, rect)
                 pygame.draw.rect(screen, (255, 255, 255), rect, 1)
 
-    # Draw the path
-    if path:
-        for x, y in path:
-            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-            pygame.draw.rect(screen, path_color, rect)
-
     # Draw start and goal points
     if start:
         rect = pygame.Rect(
@@ -60,6 +54,13 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
             goal[1] * TILE_SIZE, goal[0] * TILE_SIZE, TILE_SIZE, TILE_SIZE
         )
         pygame.draw.rect(screen, GOAL_COLOR, rect)
+
+    # Draw the path
+    if path:
+        for x, y in path:
+            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            pygame.draw.rect(screen, path_color, rect)
+
     pygame.display.update()
 
 
@@ -76,17 +77,14 @@ def draw_button(button_rect, is_hovered):
 
 
 def handle_mouse_click(pos, grid, button_rect, mousebutton):
-    # Check if the click is inside the grid
-    x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
-    if x < HEIGHT and y < WIDTH:
-        # Toggle obstacle
-        if mousebutton == 0:
-            grid[x, y] = 1
-        elif mousebutton == 1:
-            grid[x, y] = 0
-        draw_grid(grid)
-
     # Check if the click is on the "Run" button
     if button_rect.collidepoint(pos):
-        return True
-    return False
+        return True, (0, 0)
+
+    # Check if the click is inside the grid
+    x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
+    if x < width and y < height:
+        # start and goal points
+        print("*click*", x, y)
+        draw_grid(grid)
+        return False, (x, y)
