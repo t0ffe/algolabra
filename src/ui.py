@@ -6,13 +6,32 @@ from settings import (
     BUTTON_HEIGHT,
     BUTTON_HOVER_COLOR,
     BUTTON_TEXT_COLOR,
+    BUTTON_WIDTH,
     GOAL,
     GOAL_COLOR,
     GRID_COLOR,
     OBSTACLE_COLOR,
     START,
     START_COLOR,
-    TILE_SIZE,
+)
+
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+
+
+def calculate_tile_size(width, height):
+    max_width_tile_size = SCREEN_WIDTH / width
+    max_height_tile_size = (SCREEN_HEIGHT - BUTTON_HEIGHT) / height
+    return int(min(max_width_tile_size, max_height_tile_size))
+
+
+grid, height, width = convert_map_to_grid()
+TILE_SIZE = calculate_tile_size(width, height)
+button_rect = pygame.Rect(
+    (width * TILE_SIZE - BUTTON_WIDTH) // 2,
+    height * TILE_SIZE + 10,
+    BUTTON_WIDTH,
+    BUTTON_HEIGHT,
 )
 
 
@@ -25,7 +44,6 @@ def set_screen(height, width):
     return screen
 
 
-grid, height, width = convert_map_to_grid()
 screen = set_screen(width, height)
 
 
@@ -62,7 +80,16 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
     pygame.display.update()
 
 
-def draw_button(button_rect, is_hovered):
+def draw_button():
+    button_rect = pygame.Rect(
+        (width * TILE_SIZE - BUTTON_WIDTH) // 2,
+        height * TILE_SIZE + 10,
+        BUTTON_WIDTH,
+        BUTTON_HEIGHT,
+    )
+    mouse_pos = pygame.mouse.get_pos()
+    is_hovered = button_rect.collidepoint(mouse_pos)
+
     color = BUTTON_HOVER_COLOR if is_hovered else BUTTON_COLOR
 
     pygame.draw.rect(screen, color, button_rect)
@@ -74,7 +101,7 @@ def draw_button(button_rect, is_hovered):
     pygame.display.update()
 
 
-def handle_mouse_click(pos, grid, button_rect, mousebutton):
+def handle_mouse_click(pos, grid):
     # Check if the click is on the "Run" button
     if button_rect.collidepoint(pos):
         return True, (0, 0)
