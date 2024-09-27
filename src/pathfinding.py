@@ -1,6 +1,5 @@
 import numpy as np
 
-from settings import HEIGHT, WIDTH
 from ui import draw_grid
 
 DIRECTIONS = [
@@ -16,16 +15,14 @@ DIRECTIONS = [
 DRAW_IN_PROGRESS = True
 
 
-def create_grid(width=WIDTH, height=HEIGHT, obstacles=[]):
-    grid = np.zeros((width, height)).astype(int)
-    for x, y in obstacles:
-        grid[x, y] = 1
-    return grid
-
-
 # Manhattan distance heuristic
-def heuristic(a, b):
+def manhattan_heuristic(a, b):
     return abs(b[0] - a[0]) + abs(b[1] - a[1])
+
+
+# Euclidean distance heuristic
+def euclidean_heuristic(a, b):
+    return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
 
 
 def astar(grid, start, goal):
@@ -48,14 +45,16 @@ def astar(grid, start, goal):
     came_from = {}  # Previous node for reconstructing the path
 
     g_score = {start: 0}  # Cost from start along best path
-    f_score = {start: heuristic(start, goal)}  # Estimated total cost from start to goal
+    f_score = {
+        start: euclidean_heuristic(start, goal)
+    }  # Estimated total cost from start to goal
     drawingcounter = 0
 
     while unexplored_nodes:
         current = min(unexplored_nodes, key=lambda x: f_score[x])
         drawingcounter = drawingcounter + 1
         if current == goal:
-            path_lenght = g_score[current]
+            path_lenght = g_score[goal]
             path = []
             while current in came_from:
                 path.append(current)
@@ -63,11 +62,11 @@ def astar(grid, start, goal):
             path.append(start)
             return path[::-1], path_lenght
 
-        if drawingcounter % 50 == 0:
+        if DRAW_IN_PROGRESS and drawingcounter % 2000 == 0:
             draw_grid(
                 grid,
                 path=list(visited_nodes),
-                path_color=(255, 0, 0),
+                path_color=(66, 66, 66),
                 start=start,
                 goal=goal,
             )
@@ -93,7 +92,7 @@ def astar(grid, start, goal):
 
             came_from[neighbor] = current
             g_score[neighbor] = new_g_score
-            f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
+            f_score[neighbor] = g_score[neighbor] + euclidean_heuristic(neighbor, goal)
 
     return [], 0  # No path found
 
