@@ -39,7 +39,6 @@ class App:
                     pygame.quit()
                     return
                 elif pygame.mouse.get_pressed()[0]:
-                    print(pygame.mouse.get_pos())
                     if handle_mouse_click(pygame.mouse.get_pos(), grid, button_rect, 0):
                         comparison_started = True
                 elif pygame.mouse.get_pressed()[2]:
