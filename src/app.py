@@ -3,9 +3,9 @@ import time
 import pygame
 
 from helpers import convert_map_to_grid
-from pathfinding import astar, create_grid, jps
+from pathfinding import astar, jps
 from settings import A_STAR_COLOR, JPS_COLOR
-from ui import draw_button, draw_grid, handle_mouse_click, set_screen
+from ui import draw_button, draw_grid, handle_mouse_click
 
 
 class App:
@@ -29,10 +29,10 @@ class App:
                         comparison_started = True
                     else:
                         start = start_pos
-                        print(start)
+                        draw_grid(grid, start=start)
                 elif pygame.mouse.get_pressed()[2]:
                     on_button, goal = handle_mouse_click(pygame.mouse.get_pos(), grid)
-                    print(goal)
+                    draw_grid(grid, goal=goal)
 
             if comparison_started:
                 astar_path, astar_time, astar_length = self.run_algorithm(

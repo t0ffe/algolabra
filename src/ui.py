@@ -7,16 +7,13 @@ from settings import (
     BUTTON_HOVER_COLOR,
     BUTTON_TEXT_COLOR,
     BUTTON_WIDTH,
-    GOAL,
     GOAL_COLOR,
     GRID_COLOR,
     OBSTACLE_COLOR,
-    START,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
     START_COLOR,
 )
-
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
 
 
 def calculate_tile_size(width, height):
@@ -26,10 +23,10 @@ def calculate_tile_size(width, height):
 
 
 grid, height, width = convert_map_to_grid()
-TILE_SIZE = calculate_tile_size(width, height)
+tile_size = calculate_tile_size(width, height)
 button_rect = pygame.Rect(
-    (height * TILE_SIZE - BUTTON_WIDTH) // 2,
-    width * TILE_SIZE + 10,
+    (height * tile_size - BUTTON_WIDTH) // 2,
+    width * tile_size + 10,
     BUTTON_WIDTH,
     BUTTON_HEIGHT,
 )
@@ -37,7 +34,7 @@ button_rect = pygame.Rect(
 
 def set_screen(height, width):
     screen = pygame.display.set_mode(
-        (width * TILE_SIZE, height * TILE_SIZE + BUTTON_HEIGHT)
+        (width * tile_size, height * tile_size + BUTTON_HEIGHT)
     )
     pygame.display.set_caption("Pathfinding Algorithm Comparison")
     screen.fill((0, 0, 0))  # Background color
@@ -47,11 +44,11 @@ def set_screen(height, width):
 screen = set_screen(width, height)
 
 
-def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
+def draw_grid(grid, path=None, path_color=(33, 33, 33), start=(-1, -1), goal=(-1, -1)):
     # Draw the grid with obstacles
     for x in range(grid.shape[0]):
         for y in range(grid.shape[1]):
-            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            rect = pygame.Rect(y * tile_size, x * tile_size, tile_size, tile_size)
             if grid[x, y] == 1:
                 pygame.draw.rect(screen, OBSTACLE_COLOR, rect)
             else:
@@ -61,20 +58,20 @@ def draw_grid(grid, path=None, path_color=(33, 33, 33), start=START, goal=GOAL):
     # Draw start and goal points
     if start:
         rect = pygame.Rect(
-            start[1] * TILE_SIZE, start[0] * TILE_SIZE, TILE_SIZE, TILE_SIZE
+            start[1] * tile_size, start[0] * tile_size, tile_size, tile_size
         )
         pygame.draw.rect(screen, START_COLOR, rect)
 
     if goal:
         rect = pygame.Rect(
-            goal[1] * TILE_SIZE, goal[0] * TILE_SIZE, TILE_SIZE, TILE_SIZE
+            goal[1] * tile_size, goal[0] * tile_size, tile_size, tile_size
         )
         pygame.draw.rect(screen, GOAL_COLOR, rect)
 
     # Draw the path
     if path:
         for x, y in path:
-            rect = pygame.Rect(y * TILE_SIZE, x * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+            rect = pygame.Rect(y * tile_size, x * tile_size, tile_size, tile_size)
             pygame.draw.rect(screen, path_color, rect)
 
     pygame.display.update()
@@ -98,13 +95,12 @@ def draw_button():
 def handle_mouse_click(pos, grid):
     # Check if the click is on the "Run" button
     if button_rect.collidepoint(pos):
-        return True, (0, 0)
+        return True, (-1, -1)
 
     # Check if the click is inside the grid
-    x, y = pos[1] // TILE_SIZE, pos[0] // TILE_SIZE
-    if 0 <= x < width and 0 <= y < height:
+    x, y = pos[1] // tile_size, pos[0] // tile_size
+    if 0 <= x < width and 0 <= y < height and grid[x, y] != 1:
         # start and goal points
         print("*click*", x, y)
-        draw_grid(grid)
         return False, (x, y)
-    return False, (0, 0)
+    return False, (-1, -1)
