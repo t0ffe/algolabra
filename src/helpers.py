@@ -1,8 +1,10 @@
 import numpy as np
 
+from settings import MAP_FILE_PATH
+
 
 def convert_map_to_grid():
-    with open("src/tests/maps/test.map", "r") as file:
+    with open(MAP_FILE_PATH, "r") as file:
         # Read header information
         type_line = file.readline().strip()
         height = int(file.readline().split()[1])

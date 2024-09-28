@@ -1,6 +1,8 @@
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
+MAP_FILE_PATH = "src/tests/maps/test.map"
+
 GRID_COLOR = (200, 200, 200)
 OBSTACLE_COLOR = (0, 0, 0)
 START_COLOR = (0, 255, 0)
