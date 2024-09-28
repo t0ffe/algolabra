@@ -24,17 +24,71 @@ DIRECTIONS = [
 
 # Euclidean distance heuristic
 def euclidean_heuristic(a, b):
+    """
+    Calculate the Euclidean distance between two points.
+
+    Args:
+        a (tuple): The first point as a tuple of (x, y) coordinates.
+        b (tuple): The second point as a tuple of (x, y) coordinates.
+
+    Returns:
+        float: The Euclidean distance between points a and b.
+    """
     return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
 
 
 def is_valid(x, y, grid):
+    """
+    Check if a given cell (x, y) is valid within the grid.
+
+    A cell is considered valid if:
+    - It is within the bounds of the grid.
+    - The value at the cell is 0.
+
+    Args:
+        x (int): The x-coordinate of the cell.
+        y (int): The y-coordinate of the cell.
+        grid (numpy.ndarray): The grid to check against.
+
+    Returns:
+        bool: True if the cell is valid, False otherwise.
+    """
     return 0 <= x < grid.shape[0] and 0 <= y < grid.shape[1] and grid[x, y] == 0
 
 
 def astar(grid, start, goal):
+    """
+    Perform the A* pathfinding algorithm to find the shortest path from start to goal in a grid.
+    Args:
+        grid (np.array): The grid representing the map where the pathfinding is performed.
+        start (tuple of int): The starting position in the grid (x, y).
+        goal (tuple of int): The goal position in the grid (x, y).
+    Returns:
+        tuple: A tuple containing:
+            - list of tuple of int: The path from start to goal as a list of positions (x, y).
+            - int: The length of the path.
+    Notes:
+        - The grid is assumed to be a 2D list where each element represents a cell.
+        - The function uses a heuristic based on the Euclidean distance to estimate the cost from the current node to the goal.
+        - The function draws the grid at intervals if DRAW_IN_PROGRESS is set to True and DRAWING_FREQ is defined.
+        - The function returns an empty list and a path length of 0 if no path is found.
+    """
 
     # Get the neighbors of a node
     def get_neighbors(node):
+        """
+        Given a node, returns a list of valid neighboring nodes.
+
+        Args:
+            node (tuple): A tuple representing the coordinates of the current node (x, y).
+
+        Returns:
+            list: A list of tuples, each representing the coordinates of a valid neighboring node.
+
+        The function iterates over a predefined set of directions (DIRECTIONS) and calculates
+        the coordinates of neighboring nodes. It then checks if each neighboring node is valid
+        using the is_valid function. Valid neighbors are added to the result list.
+        """
         result = []
         for direction in DIRECTIONS:
             neighbor = (node[0] + direction[0], node[1] + direction[1])
