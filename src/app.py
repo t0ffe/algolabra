@@ -61,7 +61,16 @@ class App:
         return path, elapsed_time, path_length
 
     def draw_paths(self, grid, astar_path, jps_path):
-        if not len(jps_path) == 0:
-            draw_grid(grid, jps_path, JPS_COLOR)
-        if not len(astar_path) == 0:
-            draw_grid(grid, astar_path, A_STAR_COLOR)
+        comparing = True
+
+        while comparing:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                elif pygame.mouse.get_pressed()[0]:
+                    comparing = False
+            if not len(jps_path) == 0:
+                draw_grid(grid, jps_path, JPS_COLOR)
+            if not len(astar_path) == 0:
+                draw_grid(grid, astar_path, A_STAR_COLOR)
