@@ -2,7 +2,7 @@ import numpy as np
 
 
 def convert_map_to_grid():
-    with open("src/tests/maps/ca_caverns1.map", "r") as file:
+    with open("src/tests/maps/test.map", "r") as file:
         # Read header information
         type_line = file.readline().strip()
         height = int(file.readline().split()[1])
