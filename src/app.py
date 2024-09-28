@@ -72,5 +72,7 @@ class App:
                     comparing = False
             if not len(jps_path) == 0:
                 draw_grid(grid, jps_path, JPS_COLOR)
+            pygame.time.wait(500)
             if not len(astar_path) == 0:
                 draw_grid(grid, astar_path, A_STAR_COLOR)
+            pygame.time.wait(500)
