@@ -3,6 +3,9 @@ SCREEN_HEIGHT = 720
 
 MAP_FILE_PATH = "src/tests/maps/test.map"
 
+DRAW_IN_PROGRESS = True
+DRAWING_FREQ = 1
+
 GRID_COLOR = (200, 200, 200)
 OBSTACLE_COLOR = (0, 0, 0)
 START_COLOR = (0, 255, 0)
