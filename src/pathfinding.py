@@ -26,7 +26,7 @@ DIRECTIONS = [
 def euclidean_heuristic(a, b):
     """
     Calculate the Euclidean distance between two points.
-
+    Currently not used in the pathfinding algorithms.
     Args:
         a (tuple): The first point as a tuple of (x, y) coordinates.
         b (tuple): The second point as a tuple of (x, y) coordinates.
@@ -35,6 +35,22 @@ def euclidean_heuristic(a, b):
         float: The Euclidean distance between points a and b.
     """
     return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
+
+
+def octile_heuristic(a, b):
+    """
+    Calculate the Octile distance between two points.
+
+    Args:
+        a (tuple): The first point as a tuple of (x, y) coordinates.
+        b (tuple): The second point as a tuple of (x, y) coordinates.
+
+    Returns:
+        float: The Octile distance between points a and b.
+    """
+    dx = abs(b[0] - a[0])
+    dy = abs(b[1] - a[1])
+    return dx + dy + (np.sqrt(2) - 2) * min(dx, dy)
 
 
 def is_valid(x, y, grid):
@@ -102,7 +118,7 @@ def astar(grid, start, goal):
 
     g_score = {start: 0}  # Cost from start along best path
     f_score = {
-        start: euclidean_heuristic(start, goal)
+        start: octile_heuristic(start, goal)
     }  # Estimated total cost from start to goal
     drawingcounter = 0
 
@@ -148,7 +164,7 @@ def astar(grid, start, goal):
 
             came_from[neighbor] = current
             g_score[neighbor] = new_g_score
-            f_score[neighbor] = g_score[neighbor] + euclidean_heuristic(neighbor, goal)
+            f_score[neighbor] = g_score[neighbor] + octile_heuristic(neighbor, goal)
 
     return [], 0  # No path found
 
@@ -218,7 +234,7 @@ def jps(grid, start, goal):
         return forced
 
     unexplored_nodes = PriorityQueue()
-    unexplored_nodes.put((euclidean_heuristic(start, goal), start))
+    unexplored_nodes.put((octile_heuristic(start, goal), start))
     came_from = {}
     g_score = {start: 0}  # Cost from start along best path
 
@@ -261,10 +277,10 @@ def jps(grid, start, goal):
             else:
                 new_g_score = g_score[current] + 1
 
-            new_cost = g_score[current] + euclidean_heuristic(current, jump_point)
+            new_cost = g_score[current] + octile_heuristic(current, jump_point)
             if jump_point not in g_score or new_cost < g_score[jump_point]:
                 g_score[jump_point] = new_cost
-                priority = new_g_score + euclidean_heuristic(jump_point, goal)
+                priority = new_g_score + octile_heuristic(jump_point, goal)
                 unexplored_nodes.put((priority, jump_point))
                 came_from[jump_point] = current
 
