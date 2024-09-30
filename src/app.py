@@ -26,6 +26,7 @@ class App:
         pygame.init()
         grid, _, _ = convert_map_to_grid()
         comparison_started = False
+        goal, start = None, None
 
         draw_grid(grid)
 
@@ -48,6 +49,10 @@ class App:
                     draw_grid(grid, goal=goal)
 
             if comparison_started:
+                if goal is None or start is None:
+                    print("Please set the start and goal positions on the grid.")
+                    comparison_started = False
+                    continue
                 astar_path, astar_time, astar_length = self.run_algorithm(
                     astar, grid, start, goal
                 )
