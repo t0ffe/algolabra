@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 
 import numpy as np
+import pygame
 
 from settings import DRAW_IN_PROGRESS, DRAWING_FREQ
 from ui import draw_grid
@@ -176,8 +177,24 @@ def jps(grid, start, goal):
 
     def step(grid, node, direction, goal):
         ns = prune(grid, node, direction)
-        jumps = [step(grid, node, (n[0] - node[0], n[1] - node[1]), goal) for n in ns]
-        jumps = [j for j in jumps if j is not None]
+        jumps = []
+        stack = [(node, (n[0] - node[0], n[1] - node[1])) for n in ns]
+        visited = set()
+        while stack:
+            current_node, current_direction = stack.pop()
+            if current_node in visited:
+                continue
+            visited.add(current_node)
+            jump_point = jump(grid, current_node, current_direction, goal)
+            if jump_point is not None:
+                jumps.append(jump_point)
+                new_ns = prune(grid, jump_point, current_direction)
+                stack.extend(
+                    [
+                        (jump_point, (n[0] - jump_point[0], n[1] - jump_point[1]))
+                        for n in new_ns
+                    ]
+                )
         return jumps
 
     def prune(grid, node, direction):
@@ -243,7 +260,7 @@ def jps(grid, start, goal):
     while unexplored_nodes:
         _, current = unexplored_nodes.get()
         # print(f"current: {current}")
-        drawingcounter = drawingcounter + 1
+        drawingcounter += 1
         if DRAW_IN_PROGRESS and drawingcounter % DRAWING_FREQ == 0:
             draw_grid(
                 grid,
@@ -252,17 +269,17 @@ def jps(grid, start, goal):
                 start=start,
                 goal=goal,
             )
+            pygame.time.wait(500)
 
         if current == goal:
             path = []
-            path_lenght = g_score[goal]
+            path_length = g_score[goal]
             while current in came_from:
                 path.append(current)
                 current = came_from[current]
             path.append(start)
             # print("path found", list(reversed(path)))
-
-            return list(reversed(path)), path_lenght
+            return list(reversed(path)), path_length
 
         neighbors = prune(grid, current, None)
         for neighbor in neighbors:
