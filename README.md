@@ -9,6 +9,7 @@ HY - Aineopintojen harjoitustyö: Algoritmit ja tekoäly- kurssin harjoitustyö,
 - [Määrittelydokumentti](dokumentaatio/maarittelydokumentti.md)
 - [Testausdokumentti](dokumentaatio/testausdokumentti.md)
 - [Toteutusdokumentti](dokumentaatio/toteutusdokumentti.md)
+- [Käyttöohje](dokumentaatio/kayttoohje.md)
 
 ## Viikkoraportit
 - [Viikko 1](dokumentaatio/viikkoraportit/viikko1.md)
@@ -16,35 +17,5 @@ HY - Aineopintojen harjoitustyö: Algoritmit ja tekoäly- kurssin harjoitustyö,
 - [Viikko 3](dokumentaatio/viikkoraportit/viikko3.md)
 - [Viikko 4](dokumentaatio/viikkoraportit/viikko4.md)
 - [Viikko 5](dokumentaatio/viikkoraportit/viikko5.md)
-
-### Asennus- ja käynnistysohje
-Asennus komennolla:
-```bash
-poetry install
-```
-
-Käynnistys komennolla:
-```bash
-poetry run invoke start
-```
-
-Testit suoritetaan komennolla:
-```bash
-poetry run invoke test
-```
-
-Testikattavuusraportin generointi komennolla:
-```bash
-poetry run invoke coverage-report
-```
-
-Pylint tarkistus komennolla:
-```bash
-poetry run invoke lint
-```
-<!---
-
-- [Käyttöohje](dokumentaatio/kayttoohje.md)
-
 - [Viikko 6](dokumentaatio/viikkoraportit/viikko6.md)
--->
+
