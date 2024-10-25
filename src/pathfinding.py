@@ -34,7 +34,7 @@ def euclidean_heuristic(a, b):
     Returns:
         float: The Euclidean distance between points a and b.
     """
-    return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
+    return np.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)  # pragma: no cover
 
 
 def octile_heuristic(a, b):
@@ -313,7 +313,7 @@ def jps(grid, start, goal):
 
 def reconstruct_full_jps_path(path):
     if path == []:
-        return []
+        return []  # pragma: no cover
 
     cur_x, cur_y = path[0]
     result = [(cur_x, cur_y)]

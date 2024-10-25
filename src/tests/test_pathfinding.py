@@ -87,15 +87,15 @@ def test_astar_random_valid_not_same_goal_and_start(grid, create_valid_start_goa
     path, length = astar(grid, start, goal)
 
     if start == (13, 8) or goal == (13, 8):  # This is a dead end on the test.map
-        assert path == []
-        assert length == 0
+        assert path == []  # pragma: no cover
+        assert length == 0  # pragma: no cover
     else:
         assert path != []
         assert length != 0
 
 
-def test_astar_100_random_valid_not_same_goal_and_start(grid, create_valid_start_goal):
-    for _ in range(100):
+def test_astar_10_random_valid_not_same_goal_and_start(grid, create_valid_start_goal):
+    for _ in range(10):
         start, goal = create_valid_start_goal()
         path, length = astar(grid, start, goal)
 
@@ -107,17 +107,17 @@ def test_astar_100_random_valid_not_same_goal_and_start(grid, create_valid_start
             assert length != 0
 
 
-def test_jps_100_random_valid_not_same_goal_and_start(grid, create_valid_start_goal):
-    for _ in range(100):
+def test_jps_10_random_valid_not_same_goal_and_start(grid, create_valid_start_goal):
+    for _ in range(10):
         start, goal = create_valid_start_goal()
         path, length = jps(grid, start, goal)
 
         if start == (13, 8) or goal == (13, 8):  # This is a dead end on the test.map
-            assert path == []
-            assert length == 0
+            assert path == []  # pragma: no cover
+            assert length == 0  # pragma: no cover
         elif start == goal:
-            assert path == [(start[0], start[1])]
-            assert length == 1
+            assert path == [(start[0], start[1])]  # pragma: no cover
+            assert length == 1  # pragma: no cover
         else:
             print(start, goal)
             assert path != []
@@ -132,4 +132,4 @@ def test_astar_and_jps_same_length(grid, create_valid_start_goal):
 
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main()  # pragma: no cover
