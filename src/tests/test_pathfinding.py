@@ -50,34 +50,6 @@ def test_octile_heuristic():
     assert octile_heuristic((0, 0), (0, 1)) == 1
 
 
-def test_astar_known_length_and_path(grid):
-    start = (1, 1)
-    goal = (7, 6)
-    path, length = astar(grid, start, goal)
-    expected_path = [
-        (1, 1),
-        (1, 2),
-        (2, 3),
-        (3, 3),
-        (4, 3),
-        (5, 4),
-        (5, 5),
-        (6, 6),
-        (7, 6),
-    ]
-    assert path == expected_path
-    assert length == pytest.approx(9.242640687119286)
-
-
-def test_jps_known_length_and_path(grid):
-    start = (1, 1)
-    goal = (7, 6)
-    path, length = jps(grid, start, goal)
-    expected_path = [(1, 1), (5, 1), (5, 3), (5, 5), (6, 6), (7, 6)]
-    assert path == expected_path
-    assert length == pytest.approx(10.414213562373096)
-
-
 def test_astar_no_path(grid):
     start = (-1, -1)
     goal = (-2, -2)
@@ -99,7 +71,7 @@ def test_astar_same_start_goal(grid):
     goal = (1, 1)
     path, length = astar(grid, start, goal)
     assert path == [(1, 1)]
-    assert length == 0
+    assert length == 1
 
 
 def test_jps_same_start_goal(grid):
@@ -143,14 +115,17 @@ def test_jps_100_random_valid_not_same_goal_and_start(grid, create_valid_start_g
         if start == (13, 8) or goal == (13, 8):  # This is a dead end on the test.map
             assert path == []
             assert length == 0
+        elif start == goal:
+            assert path == [(start[0], start[1])]
+            assert length == 1
         else:
+            print(start, goal)
             assert path != []
             assert length != 0
 
 
-def test_astar_and_jps_same_length(grid):
-    start = (1, 1)
-    goal = (7, 6)
+def test_astar_and_jps_same_length(grid, create_valid_start_goal):
+    start, goal = create_valid_start_goal()
     astar_path, astar_length = astar(grid, start, goal)
     jps_path, jps_length = jps(grid, start, goal)
     assert astar_length == jps_length

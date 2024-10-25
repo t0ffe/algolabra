@@ -63,8 +63,10 @@ class App:
                 print("Comparison Results:")
                 print(f"A* Path Length: {astar_length}")
                 print(f"A* Time: {astar_time:.4f} seconds")
+                # print(f"A* Path: {astar_path}")
                 print(f"JPS Path Length: {jps_length}")
                 print(f"JPS Time: {jps_time:.4f} seconds")
+                # print(f"JPS Path: {jps_path}")
                 print("JPS is faster" if jps_time < astar_time else "A* is faster")
 
                 comparison_started = False
