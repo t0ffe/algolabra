@@ -8,7 +8,7 @@ Yksikkötesteissä on käytetty unnittest-kirjastoa.
 
 ![Testikattavuus](img/testikattavuus.png)
 
-Tavoitteena on 100% testikattavuus.
+Tavoitteena on lähes 100% testikattavuus.
 
 ### Testien ajaminen
 
